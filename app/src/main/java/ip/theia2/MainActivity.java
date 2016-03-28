@@ -77,6 +77,18 @@ public class MainActivity extends AppCompatActivity
             case (R.id.nav_settings):
                 fragment = new settingsPage();
                 break;
+            case (R.id.nav_chat):
+                fragment = new chatPage();
+                break;
+            case (R.id.nav_friends):
+                fragment = new friendsPage();
+                break;
+            case (R.id.nav_map):
+                fragment = new mapPage();
+                break;
+            case (R.id.nav_nearby):
+                fragment = new nearbyPage();
+                break;
         }
         if (fragment != null) {
             FragmentManager fragmentManager = getFragmentManager();

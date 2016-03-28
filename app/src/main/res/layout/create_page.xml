@@ -1,6 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnCount="2"
+        android:id="@+id/mainGridLayout"
+        android:background="#ffffff"
+        android:clickable="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Create Account"
+            android:id="@+id/textViewCreateTitle"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:textSize="30sp"
+            android:paddingStart="100dp"
+            android:paddingLeft="100dp"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_columnSpan="2" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextUser"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:width="150dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_columnSpan="1"
+            android:inputType="text"
+            android:hint="Name"
+            android:layout_below="@+id/textViewCreateTitle"
+            android:layout_centerHorizontal="true" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextPass"
+            android:layout_row="2"
+            android:layout_column="1"
+            android:width="150dp"
+            android:layout_gravity="center_horizontal"
+            android:inputType="date"
+            android:layout_alignStart="@+id/editTextUser"
+            android:hint="Password"
+            android:layout_below="@+id/editTextUser" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextCourse"
+            android:layout_row="3"
+            android:layout_column="1"
+            android:width="150dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@+id/radioButtonPub"
+            android:layout_alignStart="@+id/radioButtonPub"
+            android:layout_alignEnd="@+id/editTextPass"
+            android:inputType="text"
+            android:hint="Course" />
+
+        <EditText
+            android:layout_width="161dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextPlace"
+            android:layout_row="4"
+            android:layout_column="1"
+            android:width="150dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@+id/editTextCourse"
+            android:layout_alignStart="@+id/editTextCourse"
+            android:layout_alignEnd="@+id/editTextCourse"
+            android:inputType="text"
+            android:hint="Favourite Places" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Public"
+            android:id="@+id/radioButtonPub"
+            android:layout_row="5"
+            android:layout_column="1"
+            android:checked="false"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@+id/editTextPass"
+            android:layout_alignStart="@+id/editTextPass" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Private"
+            android:id="@+id/radioButtonPriv"
+            android:layout_row="6"
+            android:layout_column="1"
+            android:checked="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_above="@+id/editTextCourse"
+            android:layout_alignEnd="@+id/editTextCourse" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:text="Create"
+            android:id="@+id/buttonCreate"
+            android:layout_row="8"
+            android:layout_column="0"
+            android:layout_gravity="left"
+            android:layout_marginTop="31dp"
+            android:layout_below="@+id/editTextPlace"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
 
 </LinearLayout>

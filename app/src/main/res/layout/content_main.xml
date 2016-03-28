@@ -27,7 +27,6 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:textSize="25sp" />
-
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,7 +34,6 @@
             android:id="@+id/buttonSignIn"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,7 +43,6 @@
             android:layout_marginTop="67dp"
             android:layout_below="@+id/buttonSignIn"
             android:layout_centerHorizontal="true" />
-
         <Button
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
@@ -54,23 +51,21 @@
             android:id="@+id/buttonCreate"
             android:layout_below="@+id/textViewAccount"
             android:layout_centerHorizontal="true" />
-
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/editTextName"
+            android:id="@+id/editTextUser"
             android:layout_below="@+id/textViewtitle"
             android:layout_alignParentStart="true"
             android:layout_marginTop="47dp"
             android:hint="Username"
             android:layout_alignParentEnd="true" />
-
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/editTextDOB"
+            android:id="@+id/editTextPass"
             android:hint="Password"
-            android:layout_below="@+id/editTextName"
+            android:layout_below="@+id/editTextUser"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:paddingTop="50dp" />
