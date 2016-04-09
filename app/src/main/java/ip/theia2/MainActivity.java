@@ -41,11 +41,22 @@ public class MainActivity extends AppCompatActivity
 
     private void createButtonClicked(){
         Button createButton = (Button) findViewById(R.id.buttonCreate);
-
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Fragment fragment = new createPage();
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+
+                ft.replace(R.id.content_main ,fragment).commit();
+            }
+        });
+
+        Button logonButton = (Button) findViewById(R.id.buttonSignIn);
+        logonButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new mapPage();
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
 
