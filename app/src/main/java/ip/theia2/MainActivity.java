@@ -1,5 +1,6 @@
 package ip.theia2;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -13,9 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-
-import com.google.android.gms.maps.SupportMapFragment;
+import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -36,6 +37,13 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        EditText editTextUser = (EditText) findViewById(R.id.editTextUser);
+        editTextUser.setOnFocusChangeListener(new mOnFocusChangeListener());
+
+        EditText editTextPass = (EditText) findViewById(R.id.editTextPass);
+        editTextPass.setTransformationMethod(new DotsPasswordTransformationMethod());
+        editTextPass.setOnFocusChangeListener(new mOnFocusChangeListener());
+
         createButtonClicked();
 }
 
@@ -44,11 +52,12 @@ public class MainActivity extends AppCompatActivity
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Fragment fragment = new createPage();
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
 
-                ft.replace(R.id.content_main ,fragment).commit();
+                ft.replace(R.id.content_main, fragment).commit();
             }
         });
 
@@ -57,10 +66,10 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Fragment fragment = new mapPage();
-                FragmentManager fragmentManager = getFragmentManager();
+                FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
 
-                ft.replace(R.id.content_main ,fragment).commit();
+                ft.replace(R.id.content_main, fragment).commit();
             }
         });
     }
@@ -131,5 +140,19 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    private class mOnFocusChangeListener implements View.OnFocusChangeListener {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            if (!hasFocus) {
+                hideKeyboard(v);
+            }
+        }
     }
 }
