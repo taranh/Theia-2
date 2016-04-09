@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Fragment fragment = new createPage();
-                FragmentManager fragmentManager = getFragmentManager();
+                FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
 
                 ft.replace(R.id.content_main ,fragment).commit();
