@@ -9,17 +9,17 @@ import android.view.ViewGroup;
 /**
  * Created by Laptop on 11/03/2016.
  */
-public class settingsPage extends Fragment {
+public class NearbyActivity extends Fragment{
 
-    public settingsPage(){
+    public NearbyActivity(){
         // constructor
     }
 
-    // this makes the settings_page.xml page
+    // this makes the settings_page.xml page show up.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.settings_page, container, false);
+        View rootView = inflater.inflate(R.layout.nearby_page, container, false);
 
         return rootView;
     }

@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 /**
  * Created by Laptop on 11/03/2016.
  */
-public class nearbyPage extends Fragment{
+public class CreateActivity extends Fragment {
 
-    public nearbyPage(){
+    public CreateActivity(){
         // constructor
     }
 
@@ -19,7 +19,7 @@ public class nearbyPage extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.nearby_page, container, false);
+        View rootView = inflater.inflate(R.layout.create_page, container, false);
 
         return rootView;
     }

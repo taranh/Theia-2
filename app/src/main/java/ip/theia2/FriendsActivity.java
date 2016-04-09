@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 /**
  * Created by Laptop on 11/03/2016.
  */
-public class createPage extends Fragment {
+public class FriendsActivity extends Fragment {
 
-    public createPage(){
+    public FriendsActivity(){
         // constructor
     }
 
@@ -19,7 +19,7 @@ public class createPage extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.create_page, container, false);
+        View rootView = inflater.inflate(R.layout.friends_page, container, false);
 
         return rootView;
     }

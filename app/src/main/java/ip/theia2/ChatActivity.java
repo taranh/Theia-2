@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 /**
  * Created by Laptop on 11/03/2016.
  */
-public class friendsPage extends Fragment {
+public class ChatActivity extends Fragment {
 
-    public friendsPage(){
+    public ChatActivity(){
         // constructor
     }
 
@@ -19,7 +19,7 @@ public class friendsPage extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.friends_page, container, false);
+        View rootView = inflater.inflate(R.layout.chat_page, container, false);
 
         return rootView;
     }
