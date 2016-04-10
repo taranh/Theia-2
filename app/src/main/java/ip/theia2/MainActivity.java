@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                Fragment fragment = new createPage();
+                Fragment fragment = new CreateActivity();
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
 
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity
         logonButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new mapPage();
+                Fragment fragment = new MapActivity();
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
 
@@ -115,19 +115,19 @@ public class MainActivity extends AppCompatActivity
 
         switch(id) {
             case (R.id.nav_settings):
-                fragment = new settingsPage();
+                fragment = new SettingsActivity();
                 break;
             case (R.id.nav_chat):
-                fragment = new chatPage();
+                fragment = new ChatActivity();
                 break;
             case (R.id.nav_friends):
-                fragment = new friendsPage();
+                fragment = new FriendsActivity();
                 break;
             case (R.id.nav_map):
-                fragment = new mapPage();
+                fragment = new MapActivity();
                 break;
             case (R.id.nav_nearby):
-                fragment = new nearbyPage();
+                fragment = new NearbyActivity();
                 break;
         }
         if (fragment != null) {
