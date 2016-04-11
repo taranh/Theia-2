@@ -15,6 +15,7 @@ import android.widget.Toast;
 public class LoginActivity extends Activity{
 
     boolean loginState = false;
+    EditText editTextUser,editTextPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +27,10 @@ public class LoginActivity extends Activity{
     }
 
     private void createTextFields(){
-        EditText editTextUser = (EditText) findViewById(R.id.editTextUser);
+        editTextUser = (EditText) findViewById(R.id.editTextUser);
         editTextUser.setOnFocusChangeListener(new mOnFocusChangeListener());
 
-        EditText editTextPass = (EditText) findViewById(R.id.editTextPass);
+        editTextPass = (EditText) findViewById(R.id.editTextPass);
         editTextPass.setTransformationMethod(new DotsPasswordTransformationMethod());
         editTextPass.setOnFocusChangeListener(new mOnFocusChangeListener());
 
@@ -40,27 +41,39 @@ public class LoginActivity extends Activity{
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setContentView(R.layout.create_page);
+                Intent intent = new Intent(LoginActivity.this, CreateActivity.class);
+                startActivity(intent);
             }
         });
         Button logonButton = (Button) findViewById(R.id.buttonSignIn);
         logonButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean canLogin = false;
-                // TODO - check if the credentials are correct.
-                // change canLogin accordingly
-                canLogin = true;
-                if (canLogin){
-                    loginState = true;
-                    if(loginState){
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                    }
-                } else {
-                    Toast toast = Toast.makeText(getApplicationContext(), "Login failed",
+                if(editTextUser.getText().toString().equals("")){
+                    Toast toast = Toast.makeText(getApplicationContext(), "Enter your username",
                             Toast.LENGTH_SHORT);
                     toast.show();
+                } else if (editTextPass.getText().toString().equals("")){
+                    Toast toast = Toast.makeText(getApplicationContext(), "Enter your password",
+                            Toast.LENGTH_SHORT);
+                    toast.show();
+
+                } else {
+                    boolean canLogin = false;
+                    // TODO - check if the credentials are correct.
+                    // change canLogin accordingly
+                    canLogin = true;
+                    if (canLogin) {
+                        loginState = true;
+                        if (loginState) {
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }
+                    } else {
+                        Toast toast = Toast.makeText(getApplicationContext(), "Login failed",
+                                Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
                 }
             }
         });

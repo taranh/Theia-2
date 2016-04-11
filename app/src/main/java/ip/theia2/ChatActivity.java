@@ -1,10 +1,12 @@
 package ip.theia2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 /**
  * Created by Laptop on 11/03/2016.
@@ -12,16 +14,16 @@ import android.view.ViewGroup;
 public class ChatActivity extends Fragment {
 
     public ChatActivity(){
-        // constructor
+
     }
 
     // this makes the settings_page.xml page show up.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.chat_page, container, false);
+        LinearLayout page = (LinearLayout) inflater.inflate(R.layout.chat_page, container, false);
 
-        return rootView;
+        return page;
     }
 
 }
