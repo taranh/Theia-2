@@ -24,54 +24,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="SIGN IN"
+            android:text="Welcome Page"
             android:id="@+id/textViewtitle"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:textSize="25sp" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SIGN IN"
-            android:id="@+id/buttonSignIn"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="No Account?"
-            android:id="@+id/textViewAccount"
-            android:layout_marginTop="67dp"
-            android:layout_below="@+id/buttonSignIn"
-            android:layout_centerHorizontal="true" />
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Create"
-            android:id="@+id/buttonCreate"
-            android:layout_below="@+id/textViewAccount"
-            android:layout_centerHorizontal="true" />
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/editTextUser"
-            android:layout_below="@+id/textViewtitle"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="47dp"
-            android:hint="Username"
-            android:layout_alignParentEnd="true"
-            android:inputType="textNoSuggestions" />
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/editTextPass"
-            android:hint="Password"
-            android:layout_below="@+id/editTextUser"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:paddingTop="50dp"
-            android:inputType="textNoSuggestions"/>
+
     </RelativeLayout>
 </RelativeLayout>

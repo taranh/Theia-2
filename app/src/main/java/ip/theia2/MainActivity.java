@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -36,42 +37,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        EditText editTextUser = (EditText) findViewById(R.id.editTextUser);
-        editTextUser.setOnFocusChangeListener(new mOnFocusChangeListener());
-
-        EditText editTextPass = (EditText) findViewById(R.id.editTextPass);
-        editTextPass.setTransformationMethod(new DotsPasswordTransformationMethod());
-        editTextPass.setOnFocusChangeListener(new mOnFocusChangeListener());
-
-        createButtonClicked();
-}
-
-    private void createButtonClicked(){
-        Button createButton = (Button) findViewById(R.id.buttonCreate);
-        createButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Fragment fragment = new CreateActivity();
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-
-                ft.replace(R.id.content_main, fragment).commit();
-            }
-        });
-
-        Button logonButton = (Button) findViewById(R.id.buttonSignIn);
-        logonButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment fragment = new MapActivity();
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-
-                ft.replace(R.id.content_main, fragment).commit();
-            }
-        });
     }
 
     @Override
@@ -140,19 +105,5 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    public void hideKeyboard(View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
-
-    private class mOnFocusChangeListener implements View.OnFocusChangeListener {
-        @Override
-        public void onFocusChange(View v, boolean hasFocus) {
-            if (!hasFocus) {
-                hideKeyboard(v);
-            }
-        }
     }
 }
