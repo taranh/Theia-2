@@ -20,6 +20,7 @@ public class LoginActivity extends Activity implements NetworkMessageHandler{
 
     boolean loginState = false;
     EditText editTextUser,editTextPass;
+    String serverReply;
 
     /**
      * Implements the handle message interface.
@@ -32,7 +33,7 @@ public class LoginActivity extends Activity implements NetworkMessageHandler{
         //http://stackoverflow.com/questions/5161951/android-only-the-original-thread-that-created-a-view-hierarchy-can-touch-its-vi
 
         //Server reply
-
+        serverReply = msg;
 
         return true;
     }
@@ -69,15 +70,17 @@ public class LoginActivity extends Activity implements NetworkMessageHandler{
                 startActivity(intent);
             }
         });
+        final String inUser = editTextUser.getText().toString();
+        final String inPass = editTextPass.getText().toString();
         Button logonButton = (Button) findViewById(R.id.buttonSignIn);
         logonButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(editTextUser.getText().toString().equals("")){
+                if(inUser.equals("")){
                     Toast toast = Toast.makeText(getApplicationContext(), "Enter your username",
                             Toast.LENGTH_SHORT);
                     toast.show();
-                } else if (editTextPass.getText().toString().equals("")){
+                } else if (inPass.equals("")){
                     Toast toast = Toast.makeText(getApplicationContext(), "Enter your password",
                             Toast.LENGTH_SHORT);
                     toast.show();
@@ -101,12 +104,18 @@ public class LoginActivity extends Activity implements NetworkMessageHandler{
 //                            }
 
                             //Speaking to the server
-                            conn.sendMessage("login Zach mypassword");
+                            conn.sendMessage("login" + inUser + inPass);
                         }
                     }).start();*/
 
 
-                    // change canLogin accordingly
+                    /*// change canLogin according to the
+                    if (serverReply.equals("acceptlog")){
+                        canLogin = true;
+                    } else {
+                        canLogin = false;
+                    }*/
+
                     canLogin = true;
                     if (canLogin) {
                         loginState = true;
