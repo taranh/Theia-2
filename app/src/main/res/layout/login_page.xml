@@ -53,7 +53,7 @@
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/editTextUser"
+            android:id="@+id/editTextsUser"
             android:layout_below="@+id/textViewtitle"
             android:layout_alignParentStart="true"
             android:layout_marginTop="47dp"
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/editTextPass"
             android:hint="Password"
-            android:layout_below="@+id/editTextUser"
+            android:layout_below="@+id/editTextsUser"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:paddingTop="50dp"

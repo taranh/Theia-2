@@ -48,7 +48,7 @@ public class LoginActivity extends Activity implements NetworkMessageHandler{
     }
 
     private void createTextFields(){
-        editTextUser = (EditText) findViewById(R.id.editTextUser);
+        editTextUser = (EditText) findViewById(R.id.editTextsUser);
         editTextUser.setOnFocusChangeListener(new mOnFocusChangeListener());
 
         editTextPass = (EditText) findViewById(R.id.editTextPass);
@@ -86,7 +86,7 @@ public class LoginActivity extends Activity implements NetworkMessageHandler{
                     boolean canLogin = false;
                     // TODO - check if the credentials are correct.
 
-                    final InputStream trustStore = getResources().openRawResource(R.raw.truststore);
+                    /*final InputStream trustStore = getResources().openRawResource(R.raw.truststore);
 
                     (new Thread(){
                         public void run(){
@@ -103,7 +103,7 @@ public class LoginActivity extends Activity implements NetworkMessageHandler{
                             //Speaking to the server
                             conn.sendMessage("login Zach mypassword");
                         }
-                    }).start();
+                    }).start();*/
 
 
                     // change canLogin accordingly
