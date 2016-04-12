@@ -9,13 +9,34 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.InputStream;
+
 /**
  * Created by Laptop on 11/03/2016.
  */
-public class LoginActivity extends Activity{
+public class LoginActivity extends Activity implements NetworkMessageHandler{
+
+    public NetworkConnection conn;
 
     boolean loginState = false;
     EditText editTextUser,editTextPass;
+
+    /**
+     * Implements the handle message interface.
+     * @param msg message to handle.
+     * @return success or fail
+     */
+    public Boolean handleMessage(final String msg){
+        //Modifying the UI, so has to be run on the UI thread...
+        //From:
+        //http://stackoverflow.com/questions/5161951/android-only-the-original-thread-that-created-a-view-hierarchy-can-touch-its-vi
+
+        //Server reply
+
+
+        return true;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +58,9 @@ public class LoginActivity extends Activity{
     }
 
     private void createButtonClicked() {
+
+        final NetworkMessageHandler nmh = this;
+
         Button createButton = (Button) findViewById(R.id.buttonCreate);
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +85,27 @@ public class LoginActivity extends Activity{
                 } else {
                     boolean canLogin = false;
                     // TODO - check if the credentials are correct.
+
+                    final InputStream trustStore = getResources().openRawResource(R.raw.truststore);
+
+                    (new Thread(){
+                        public void run(){
+                            //This seriously needs error handling.
+                            conn = new NetworkConnection("138.38.109.121", 5575, trustStore, nmh); //We are always using 5571.
+
+//                            try {
+//                                Thread.sleep(100);
+//                            }
+//                            catch(InterruptedException e){
+//                                //No one cares
+//                            }
+
+                            //Speaking to the server
+                            conn.sendMessage("login Zach mypassword");
+                        }
+                    }).start();
+
+
                     // change canLogin accordingly
                     canLogin = true;
                     if (canLogin) {

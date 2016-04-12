@@ -20,8 +20,8 @@ public class NetworkConnection {
     public NetworkConnection(final String host, final int port, final InputStream trustStore, NetworkMessageHandler newNmh){
         nmh = newNmh;
 
-        (new Thread(){
-            public void run(){
+//        (new Thread(){
+//            public void run(){
                 TheiaSSLConnection sslCon = new TheiaSSLConnection(host, port, trustStore);
 
                 br = new BufferedReader(new InputStreamReader(sslCon.getInputStream()));
@@ -40,8 +40,8 @@ public class NetworkConnection {
                     }
                 }).start();
 
-            }
-        }).start();
+//            }
+//        }).start();
 
     }
 

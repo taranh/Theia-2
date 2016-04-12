@@ -33,10 +33,11 @@ public class TheiaSSLConnection {
     public TheiaSSLConnection(String host, int port, InputStream trustStoreFile){
         try {
             sock = new Socket(host, port);
+            System.err.println("I HAVE CREATED A SOCKET");
         } catch (UnknownHostException e) {
             System.err.println("Cannot connect to host: " + e.getMessage());
         } catch (IOException e) {
-            System.err.println(e.getMessage());
+            System.err.println("error: "+ e.getMessage());
         }
 
         //SSL Setup
