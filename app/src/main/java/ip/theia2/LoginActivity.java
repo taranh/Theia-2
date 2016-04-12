@@ -76,6 +76,28 @@ public class LoginActivity extends Activity implements NetworkMessageHandler{
         logonButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // TODO - check if the credentials are correct.
+
+                final InputStream trustStore = getResources().openRawResource(R.raw.truststore);
+
+                (new Thread(){
+                    public void run(){
+                        //This seriously needs error handling.
+                        conn = new NetworkConnection("theiaserver.ddns.net", 5575, trustStore, nmh); //We are always using 5571.
+
+                        try {
+                            Thread.sleep(100);
+                        }
+                        catch(InterruptedException e){
+                            //No one cares
+                        }
+
+                        //Speaking to the server
+                        conn.sendMessage("login" + inUser + inPass);
+                    }
+                }).start();
+
                 if(inUser.equals("")){
                     Toast toast = Toast.makeText(getApplicationContext(), "Enter your username",
                             Toast.LENGTH_SHORT);
@@ -89,24 +111,23 @@ public class LoginActivity extends Activity implements NetworkMessageHandler{
                     boolean canLogin = false;
                     // TODO - check if the credentials are correct.
 
-                    /*final InputStream trustStore = getResources().openRawResource(R.raw.truststore);
 
-                    (new Thread(){
-                        public void run(){
-                            //This seriously needs error handling.
-                            conn = new NetworkConnection("138.38.109.121", 5575, trustStore, nmh); //We are always using 5571.
-
+//                    (new Thread(){
+//                        public void run(){
+//                            //This seriously needs error handling.
+//                            conn = new NetworkConnection("theiaserver.ddns.net", 5575, trustStore, nmh); //We are always using 5571.
+//
 //                            try {
 //                                Thread.sleep(100);
 //                            }
 //                            catch(InterruptedException e){
 //                                //No one cares
 //                            }
-
-                            //Speaking to the server
-                            conn.sendMessage("login" + inUser + inPass);
-                        }
-                    }).start();*/
+//
+//                            //Speaking to the server
+//                            conn.sendMessage("login" + inUser + inPass);
+//                        }
+//                    }).start();
 
 
                     /*// change canLogin according to the
