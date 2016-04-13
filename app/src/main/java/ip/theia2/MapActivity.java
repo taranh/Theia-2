@@ -1,11 +1,18 @@
 package ip.theia2;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Build;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +37,6 @@ import java.util.Stack;
 
 /**
  * TODO: Add server-sent locations to maps, must coincide with user's location request interval.
- * TODO: Show rationale for when location permission has not been granted.
  * TODO: Do stuff for when user is unable to connect to api.
  */
 
@@ -49,8 +55,13 @@ public class MapActivity extends Fragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_theia);
-        mapFragment.getMapAsync(this);
+
+        if(isLocationEnabled()) {
+            setupMap();
+        }
+        else {
+            createLocationAlertDialog(this.getActivity());
+        }
     }
 
     @Override
@@ -67,8 +78,10 @@ public class MapActivity extends Fragment
 
         String testFriend2 = "51.379748&&-2.330712";
         Stack<User> userStack = new Stack<>();
-        userStack.push(new User("hey its me ur brother", testFriend));
-        userStack.push(new User("Your Management friend", parseLatLngString(testFriend2)));
+        userStack.push(TestFriends.albert);
+        userStack.push(TestFriends.frida);
+        userStack.push(TestFriends.orlando);
+        userStack.push(new User("Erik Uberti", parseLatLngString(testFriend2)));
 
         for (int i = 0; i <= userStack.size(); i++) {
             addMarker(userStack.pop(), BitmapDescriptorFactory.HUE_GREEN);
@@ -130,6 +143,8 @@ public class MapActivity extends Fragment
 
     @Override
     public void onLocationChanged(Location location) {
+        // TODO: Clear map when locchange is received.
+        //mMap.clear();
         addMarker(new User("You", new LatLng(location.getLatitude(), location.getLongitude())),
                 BitmapDescriptorFactory.HUE_BLUE);
     }
@@ -147,5 +162,71 @@ public class MapActivity extends Fragment
     private LatLng parseLatLngString(String string) {
         return new LatLng(Double.parseDouble(string.split("&&")[0]),
                 Double.parseDouble(string.split("&&")[1]));
+    }
+
+    private void setupMap() {
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_theia);
+        mapFragment.getMapAsync(this);
+    }
+
+    /**
+     * Checks if locations services are enabled.
+     * @return True, if location services are enabled, otherwise False.
+     */
+    private boolean isLocationEnabled(){
+        // http://stackoverflow.com/questions/10311834/how-to-check-if-location-services-are-enabled
+        int locationMode = 0;
+        String locationProviders;
+
+        // Checks if using the old or new Android Location API.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            try {
+                locationMode = Settings.Secure.getInt(this.getActivity().getContentResolver(),
+                        Settings.Secure.LOCATION_MODE);
+            } catch (Settings.SettingNotFoundException e) {
+                System.err.println(e.getMessage());
+            }
+
+            return locationMode != Settings.Secure.LOCATION_MODE_OFF;
+        }
+        else {
+            locationProviders = Settings.Secure.getString(this.getActivity().getContentResolver(),
+                    Settings.Secure.LOCATION_MODE);
+            return !TextUtils.isEmpty(locationProviders);
+        }
+    }
+
+    /**
+     * Create a dialog to warn the user that location services are not enabled.
+     * @param context
+     */
+    private void createLocationAlertDialog(final Context context){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+        dialog.setMessage(context.getResources().getString(R.string.location_services_not_enabled));
+        dialog.setPositiveButton(context.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Go to location settings on device.
+                Intent intent = new Intent (Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                context.startActivity(intent);
+
+                // Checks if location services are enabled.
+                if(isLocationEnabled()){
+                    setupMap();
+                }
+                else{
+                    createLocationAlertDialog(context);
+                }
+            }
+        });
+        dialog.setNegativeButton(context.getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Go back to MainActivity
+                Intent intent = new Intent(MapActivity.this.getActivity(), MainActivity.class);
+                context.startActivity(intent);
+            }
+        });
+        dialog.show();
     }
 }

@@ -3,6 +3,7 @@ package ip.theia2;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.InputStream;
+import java.util.Arrays;
 
 /**
  * Created by Laptop on 11/03/2016.
@@ -70,8 +72,7 @@ public class LoginActivity extends Activity implements NetworkMessageHandler{
                 startActivity(intent);
             }
         });
-        final String inUser = editTextUser.getText().toString();
-        final String inPass = editTextPass.getText().toString();
+
         Button logonButton = (Button) findViewById(R.id.buttonSignIn);
         logonButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +81,9 @@ public class LoginActivity extends Activity implements NetworkMessageHandler{
                 // TODO - check if the credentials are correct.
 
                 final InputStream trustStore = getResources().openRawResource(R.raw.truststore);
+
+                final String inUser = editTextUser.getText().toString();
+                final String inPass = editTextPass.getText().toString();
 
                 (new Thread(){
                     public void run(){
@@ -93,8 +97,12 @@ public class LoginActivity extends Activity implements NetworkMessageHandler{
                             //No one cares
                         }
 
+                        while(serverReply == null);
+                        System.out.println(serverReply);
+
                         //Speaking to the server
-                        conn.sendMessage("login" + inUser + inPass);
+                        conn.sendMessage("login " + inUser + " " + inPass);
+                        System.out.println("Sent login");
                     }
                 }).start();
 
@@ -108,36 +116,26 @@ public class LoginActivity extends Activity implements NetworkMessageHandler{
                     toast.show();
 
                 } else {
-                    boolean canLogin = false;
-                    // TODO - check if the credentials are correct.
+                    String loginReply = checkLogin();
 
+                    System.out.println(loginReply);
 
-//                    (new Thread(){
-//                        public void run(){
-//                            //This seriously needs error handling.
-//                            conn = new NetworkConnection("theiaserver.ddns.net", 5575, trustStore, nmh); //We are always using 5571.
-//
-//                            try {
-//                                Thread.sleep(100);
-//                            }
-//                            catch(InterruptedException e){
-//                                //No one cares
-//                            }
-//
-//                            //Speaking to the server
-//                            conn.sendMessage("login" + inUser + inPass);
-//                        }
-//                    }).start();
+                    if(loginReply.equals("acceptlog")){
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                    if(loginReply.equals("rejectlog")){
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                "Wrong Username or Password", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                    if(loginReply.equals("fail")){
+                        Toast toast = Toast.makeText(getApplicationContext(), "Login Failed",
+                                Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
 
-
-                    /*// change canLogin according to the
-                    if (serverReply.equals("acceptlog")){
-                        canLogin = true;
-                    } else {
-                        canLogin = false;
-                    }*/
-
-                    canLogin = true;
+                    /*
                     if (canLogin) {
                         loginState = true;
                         if (loginState) {
@@ -149,9 +147,32 @@ public class LoginActivity extends Activity implements NetworkMessageHandler{
                                 Toast.LENGTH_SHORT);
                         toast.show();
                     }
+                    */
                 }
             }
         });
+    }
+
+    /**
+     * Returns the server reply after sending login details
+     * @return server reply
+     */
+    private String checkLogin(){
+        String temp = "";
+
+        // This is messy
+        while(serverReply == null);
+        while(!(serverReply.equals("acceptlog") || serverReply.equals("rejectlog") || serverReply.equals("fail"))) {
+            if(serverReply.equals("acceptlog") || serverReply.equals("rejectlog") || serverReply.equals("fail")){
+                temp = serverReply;
+            }
+        }
+
+        if(temp == null){
+            checkLogin();
+        }
+
+        return temp;
     }
 
     public void hideKeyboard(View view) {
