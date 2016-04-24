@@ -71,9 +71,7 @@ public class NearbyActivity extends ListFragment implements LocationListener{
     private boolean isNearby(User user) {
         double threshold = 1000d;
 
-        double dist = getDistance(user);
-
-        if(threshold >= dist){
+        if(threshold >= getDistance(user)){
             return true;
         }
         else{
@@ -83,7 +81,6 @@ public class NearbyActivity extends ListFragment implements LocationListener{
 
     private Double getDistance(User friend){
         double R = 6371000d;        // Earth's mean radius in metres.
-
 
         double phi1 = Math.toRadians(userLocation.getLatitude());
         double phi2 = Math.toRadians(friend.getLatLng().latitude);
