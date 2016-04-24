@@ -32,10 +32,7 @@ public class FriendsActivity extends ListFragment{
     }
 
     private void addFriend(User user){
-        friends.add(user.getName() + " " + user.getLatLng().toString());
+        friends.add(user.getName());
         adapter.notifyDataSetChanged();
     }
-
-
-
 }

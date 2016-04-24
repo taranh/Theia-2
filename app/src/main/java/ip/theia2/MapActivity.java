@@ -98,8 +98,6 @@ public class MapActivity extends Fragment
 
     @Override
     public void onConnected(Bundle connectionHint) {
-        System.out.println("Connected");
-
         if (ContextCompat.checkSelfPermission(this.getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             Location mLastLocation = LocationServices.FusedLocationApi
