@@ -14,7 +14,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 /**
- * Created by Laptop on 11/03/2016.
+ * Fragment for the "Settings" page to handle app settings.
  */
 public class SettingsActivity extends Fragment {
 

@@ -9,11 +9,13 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Activity to handle client-server interactions.
+ */
 public class NetworkActivity extends AppCompatActivity implements NetworkMessageHandler {
 
     public NetworkConnection conn;
     public TextView networkOutput;
-
     public EditText inputMsg;
 
     @Override

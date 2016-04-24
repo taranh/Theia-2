@@ -14,7 +14,7 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
 
 /**
- * Created by Zachary Shannon on 03/03/2016.
+ * Handles client-server connection.
  */
 
 //Need to add Internet permissions to the AndroidManifest in order for this to work!

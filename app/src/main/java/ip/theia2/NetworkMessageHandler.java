@@ -1,8 +1,5 @@
 package ip.theia2;
 
-/**
- * Created by Zach on 03/03/2016.
- */
 public interface NetworkMessageHandler {
     /**
      * Handle a message from a network connection.

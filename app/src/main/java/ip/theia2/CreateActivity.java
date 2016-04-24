@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 /**
- * Created by Laptop on 11/03/2016.
+ * Activity for the "Create Account" page to handle account creation.
  */
 public class CreateActivity extends Activity {
 

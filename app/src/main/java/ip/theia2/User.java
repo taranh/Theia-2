@@ -3,7 +3,7 @@ package ip.theia2;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
- * Created by Kai on 07/04/2016.
+ * Stores user information.
  */
 public class User {
 

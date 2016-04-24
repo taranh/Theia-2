@@ -171,7 +171,6 @@ public class MapActivity extends Fragment
 
     /**
      * Checks if locations services are enabled.
-     * @return True, if location services are enabled, otherwise False.
      */
     private boolean isLocationEnabled(){
         // http://stackoverflow.com/questions/10311834/how-to-check-if-location-services-are-enabled
@@ -198,7 +197,6 @@ public class MapActivity extends Fragment
 
     /**
      * Create a dialog to warn the user that location services are not enabled.
-     * @param context
      */
     private void createLocationAlertDialog(final Context context){
         AlertDialog.Builder dialog = new AlertDialog.Builder(context);

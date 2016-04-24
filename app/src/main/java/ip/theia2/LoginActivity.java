@@ -14,15 +14,13 @@ import java.io.InputStream;
 import java.util.Arrays;
 
 /**
- * Created by Laptop on 11/03/2016.
+ * Activity for the "Login" page to handle login.
  */
 public class LoginActivity extends Activity implements NetworkMessageHandler{
 
     public NetworkConnection conn;
-
-    boolean loginState = false;
-    EditText editTextUser,editTextPass;
-    String serverReply;
+    private EditText editTextUser, editTextPass;
+    private String serverReply;
 
     /**
      * Implements the handle message interface.
