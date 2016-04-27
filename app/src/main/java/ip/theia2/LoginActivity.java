@@ -3,7 +3,6 @@ package ip.theia2;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -11,43 +10,50 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.InputStream;
-import java.util.Arrays;
+
+import ip.theia2.exceptions.TheiaLoginException;
+import ip.theia2.interfaces.LoginHandler;
+import ip.theia2.interfaces.NetworkMessageHandler;
 
 /**
  * Activity for the "Login" page to handle login.
  */
-public class LoginActivity extends Activity implements NetworkMessageHandler{
+public class LoginActivity extends Activity implements LoginHandler{
 
-    public NetworkConnection conn;
     private EditText editTextUser, editTextPass;
     private String serverReply;
 
-    /**
-     * Implements the handle message interface.
-     * @param msg message to handle.
-     * @return success or fail
-     */
-    public Boolean handleMessage(final String msg){
-        //Modifying the UI, so has to be run on the UI thread...
-        //From:
-        //http://stackoverflow.com/questions/5161951/android-only-the-original-thread-that-created-a-view-hierarchy-can-touch-its-vi
-
-        //Server reply
-        serverReply = msg;
-
-        return true;
-    }
+    private ServerMessageHandler srv;
 
 
     @Override
+    /**
+     * Actions to carry out on creation
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page);
 
         createTextFields();
         createButtonClicked();
+
+        final InputStream trustStore = getResources().openRawResource(R.raw.truststore);
+        final LoginHandler lh = this;
+
+        //Create the server connection
+        (new Thread(){
+            public void run(){
+                srv = new ServerMessageHandler("theiaserver.ddns.net", 5575, trustStore);
+
+                //Add this login handler.
+                srv.addLoginHandler(lh);
+            }
+        }).start();
     }
 
+    /**
+     * Create text fields
+     */
     private void createTextFields(){
         editTextUser = (EditText) findViewById(R.id.editTextsUser);
         editTextUser.setOnFocusChangeListener(new mOnFocusChangeListener());
@@ -58,10 +64,14 @@ public class LoginActivity extends Activity implements NetworkMessageHandler{
 
     }
 
+    /**
+     * Add button click listeners.
+     */
     private void createButtonClicked() {
 
-        final NetworkMessageHandler nmh = this;
-
+        /**
+         * Go to the create page when the create button is pressed.
+         */
         Button createButton = (Button) findViewById(R.id.buttonCreate);
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,107 +81,84 @@ public class LoginActivity extends Activity implements NetworkMessageHandler{
             }
         });
 
+        /**
+         * Login when the login button is pressed.
+         */
+
         Button logonButton = (Button) findViewById(R.id.buttonSignIn);
         logonButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                // TODO - check if the credentials are correct.
-
-                final InputStream trustStore = getResources().openRawResource(R.raw.truststore);
-
                 final String inUser = editTextUser.getText().toString();
                 final String inPass = editTextPass.getText().toString();
 
-                (new Thread(){
-                    public void run(){
-                        //This seriously needs error handling.
-                        conn = new NetworkConnection("theiaserver.ddns.net", 5575, trustStore, nmh); //We are always using 5571.
-
+                (new Thread() {
+                    public void run() {
                         try {
                             Thread.sleep(100);
-                        }
-                        catch(InterruptedException e){
+                        } catch (InterruptedException e) {
                             //No one cares
                         }
 
-                        while(serverReply == null);
-                        System.out.println(serverReply);
+                        //Attempt a login.
+                        try {
+                            srv.login(inUser, inPass);
+                        } catch (TheiaLoginException e) {
+                            e.printStackTrace();
+                        }
 
-                        //Speaking to the server
-                        conn.sendMessage("login " + inUser + " " + inPass);
                         System.out.println("Sent login");
                     }
                 }).start();
 
-                if(inUser.equals("")){
+                if (inUser.equals("")) {
                     Toast toast = Toast.makeText(getApplicationContext(), "Enter your username",
                             Toast.LENGTH_SHORT);
                     toast.show();
-                } else if (inPass.equals("")){
+                } else if (inPass.equals("")) {
                     Toast toast = Toast.makeText(getApplicationContext(), "Enter your password",
                             Toast.LENGTH_SHORT);
                     toast.show();
-
-                } else {
-                    String loginReply = checkLogin();
-
-                    System.out.println(loginReply);
-
-                    if(loginReply.equals("acceptlog")){
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                    }
-                    if(loginReply.equals("rejectlog")){
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                "Wrong Username or Password", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                    if(loginReply.equals("fail")){
-                        Toast toast = Toast.makeText(getApplicationContext(), "Login Failed",
-                                Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-
-                    /*
-                    if (canLogin) {
-                        loginState = true;
-                        if (loginState) {
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                        }
-                    } else {
-                        Toast toast = Toast.makeText(getApplicationContext(), "Login failed",
-                                Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                    */
                 }
             }
         });
     }
 
     /**
-     * Returns the server reply after sending login details
-     * @return server reply
+     * In the case a successful login is recorded.
      */
-    private String checkLogin(){
-        String temp = "";
-
-        // This is messy
-        while(serverReply == null);
-        while(!(serverReply.equals("acceptlog") || serverReply.equals("rejectlog") || serverReply.equals("fail"))) {
-            if(serverReply.equals("acceptlog") || serverReply.equals("rejectlog") || serverReply.equals("fail")){
-                temp = serverReply;
-            }
-        }
-
-        if(temp == null){
-            checkLogin();
-        }
-
-        return temp;
+    public void loginSuccess(){
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
     }
+
+    /**
+     * In the case login credentials are rejected.
+     */
+    public void loginReject(){
+        LoginActivity.this.runOnUiThread(new Runnable() {
+            public void run() {
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Wrong Username or Password", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+    }
+
+    /**
+     * In the case an unsuccessful login is recorded.
+     */
+    public void loginFail(){
+        LoginActivity.this.runOnUiThread(new Runnable() {
+            public void run() {
+                Toast toast = Toast.makeText(getApplicationContext(), "Login Failed",
+                        Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+    }
+
 
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);

@@ -1,4 +1,4 @@
-package ip.theia2;
+package ip.theia2.interfaces;
 
 public interface NetworkMessageHandler {
     /**
@@ -6,5 +6,5 @@ public interface NetworkMessageHandler {
      * @return True if succeeded, false if failed.
      * @
      */
-    public Boolean handleMessage(String msg);
+    public void handleMessage(String msg);
 }

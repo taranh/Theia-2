@@ -1,13 +1,13 @@
 package ip.theia2;
 
-import android.net.Network;
-
 import java.io.*;
+
+import ip.theia2.interfaces.NetworkMessageHandler;
 
 /**
  * Created by Zachary Shannon on 03/03/2016.
  */
-public class NetworkConnection {
+public class ServerConnection {
 
     private BufferedReader br;
     private BufferedWriter wr;
@@ -17,7 +17,7 @@ public class NetworkConnection {
      * Creates a new network connection.
      * @param trustStore TrustStore file to use for the connection.
      */
-    public NetworkConnection(final String host, final int port, final InputStream trustStore, NetworkMessageHandler newNmh){
+    public ServerConnection(final String host, final int port, final InputStream trustStore, NetworkMessageHandler newNmh){
         nmh = newNmh;
 
 //        (new Thread(){
@@ -49,7 +49,7 @@ public class NetworkConnection {
      * Sends the message to the server.
      * @param msg Message to send to the server.
      */
-    public void sendMessage(String msg){
+    public synchronized void sendMessage(String msg){
         try {
             wr.write(msg);
             wr.newLine();
