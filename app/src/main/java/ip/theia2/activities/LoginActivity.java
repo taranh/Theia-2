@@ -13,7 +13,7 @@ import java.io.InputStream;
 
 import ip.theia2.DotsPasswordTransformationMethod;
 import ip.theia2.R;
-import ip.theia2.networking.ServerMessageHandler;
+import ip.theia2.networking.ServerHandler;
 import ip.theia2.exceptions.TheiaLoginException;
 import ip.theia2.networking.interfaces.LoginHandler;
 
@@ -25,7 +25,7 @@ public class LoginActivity extends Activity implements LoginHandler{
     private EditText editTextUser, editTextPass;
     private String serverReply;
 
-    private ServerMessageHandler srv;
+    private ServerHandler srv;
 
 
     @Override
@@ -46,7 +46,7 @@ public class LoginActivity extends Activity implements LoginHandler{
         (new Thread(){
             public void run(){
 
-                srv = ServerMessageHandler.getInstance();
+                srv = ServerHandler.getInstance();
 
                 //Add this connection.
                 srv.startServerConnection("theiaserver.ddns.net", 5575, trustStore);

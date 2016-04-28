@@ -1,6 +1,7 @@
 package ip.theia2.networking;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import ip.theia2.exceptions.TheiaLoginException;
 import ip.theia2.networking.interfaces.LoginHandler;
@@ -9,24 +10,26 @@ import ip.theia2.networking.interfaces.NetworkMessageHandler;
 /**
  * Created by Zach on 27/04/2016.
  */
-public class ServerMessageHandler implements NetworkMessageHandler{
+public class ServerHandler implements NetworkMessageHandler{
 
     private LoginHandler lh;
     private ServerConnection conn;
 
     private String lastMessage;
 
-    //Singleton;
-    private static ServerMessageHandler smh = new ServerMessageHandler();
+    private ArrayList<String[]> friends = new ArrayList<String[]>();
 
-    public static ServerMessageHandler getInstance(){
+    //Singleton;
+    private static ServerHandler smh = new ServerHandler();
+
+    public static ServerHandler getInstance(){
         return smh;
     }
 
     /**
      * Create.
      */
-    private ServerMessageHandler(){
+    private ServerHandler(){
         //Don't really care!
     }
 
@@ -116,6 +119,18 @@ public class ServerMessageHandler implements NetworkMessageHandler{
             case "fail":
                 failMessage();
         }
+    }
+
+    /**
+     * Start populating the friends arraylist.
+     */
+    private void populateFriends(){
+
+        (new Thread() {
+            public void run() {
+                //Code to do that here.
+            }
+        }).start();
     }
 
     /**
