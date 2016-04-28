@@ -16,23 +16,43 @@ public class ServerMessageHandler implements NetworkMessageHandler{
 
     private String lastMessage;
 
+    //Singleton;
+    private static ServerMessageHandler smh = new ServerMessageHandler();
+
+    public static ServerMessageHandler getInstance(){
+        return smh;
+    }
+
+    /**
+     * Create.
+     */
+    private ServerMessageHandler(){
+        //Don't really care!
+    }
+
+
+    /**
+     * Add a server connection.
+     * @param host Host to connect to.
+     * @param port Port to connect to.
+     */
+    public void startServerConnection(final String host, final int port, final InputStream trustStore){
+
+        final NetworkMessageHandler nmh = this;
+
+        (new Thread(){
+            public void run(){
+                conn = new ServerConnection(host, port, trustStore, nmh); //We are always using 5575.
+            }
+        }).start();
+    }
+
     /**
      * Adds a login handler.
      * @param lhSet Login handler to add.
      */
     public void addLoginHandler(LoginHandler lhSet){
         lh = lhSet;
-    }
-
-    public ServerMessageHandler(final String host, final int port, final InputStream trustStore){
-
-        final NetworkMessageHandler nmh = this;
-
-            (new Thread() {
-                public void run() {
-                    conn = new ServerConnection(host, port, trustStore, nmh); //We are always using 5575.
-                }
-            }).start();
     }
 
     /**
@@ -62,7 +82,13 @@ public class ServerMessageHandler implements NetworkMessageHandler{
     public void sendMessage(String message){
         lastMessage = splitCmdStr(message)[0]; //Record the last message.
 
-        conn.sendMessage(message);
+        if(conn != null){
+            conn.sendMessage(message);
+        }
+        else{
+            System.err.println("Connection is dead");
+        }
+
     }
 
     /**

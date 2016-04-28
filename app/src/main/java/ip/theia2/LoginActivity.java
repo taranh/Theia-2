@@ -43,7 +43,11 @@ public class LoginActivity extends Activity implements LoginHandler{
         //Create the server connection
         (new Thread(){
             public void run(){
-                srv = new ServerMessageHandler("theiaserver.ddns.net", 5575, trustStore);
+
+                srv = ServerMessageHandler.getInstance();
+
+                //Add this connection.
+                srv.startServerConnection("theiaserver.ddns.net", 5575, trustStore);
 
                 //Add this login handler.
                 srv.addLoginHandler(lh);
