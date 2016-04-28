@@ -1,4 +1,4 @@
-package ip.theia2.interfaces;
+package ip.theia2.networking.interfaces;
 
 /**
  * Created by Zach on 27/04/2016.
