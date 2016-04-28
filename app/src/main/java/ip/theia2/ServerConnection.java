@@ -20,28 +20,23 @@ public class ServerConnection {
     public ServerConnection(final String host, final int port, final InputStream trustStore, NetworkMessageHandler newNmh){
         nmh = newNmh;
 
-//        (new Thread(){
-//            public void run(){
-                TheiaSSLConnection sslCon = new TheiaSSLConnection(host, port, trustStore);
+        TheiaSSLConnection sslCon = new TheiaSSLConnection(host, port, trustStore);
 
-                br = new BufferedReader(new InputStreamReader(sslCon.getInputStream()));
-                wr = new BufferedWriter(new OutputStreamWriter(sslCon.getOutputStream()));
+        br = new BufferedReader(new InputStreamReader(sslCon.getInputStream()));
+        wr = new BufferedWriter(new OutputStreamWriter(sslCon.getOutputStream()));
 
-                (new Thread(){
-                    public void run(){
-                        while(true){
-                            try{
-                                String cmd = br.readLine();
-                                nmh.handleMessage(cmd);
-                            }catch(IOException e){
-                                System.err.println("Error reading server message " + e.getMessage());
-                            }
-                        }
+        (new Thread(){
+            public void run(){
+                while(true){
+                    try{
+                        String cmd = br.readLine();
+                        nmh.handleMessage(cmd);
+                    }catch(IOException e){
+                        System.err.println("Error reading server message " + e.getMessage());
                     }
-                }).start();
-
-//            }
-//        }).start();
+                }
+            }
+        }).start();
 
     }
 
