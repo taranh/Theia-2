@@ -1,4 +1,4 @@
-package ip.theia2;
+package ip.theia2.activities;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
+
+import ip.theia2.R;
 
 /**
  * Fragment for the "Settings" page to handle app settings.

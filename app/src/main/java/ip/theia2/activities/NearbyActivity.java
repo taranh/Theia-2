@@ -1,4 +1,4 @@
-package ip.theia2;
+package ip.theia2.activities;
 
 import android.Manifest;
 import android.content.Context;
@@ -17,6 +17,10 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+
+import ip.theia2.R;
+import ip.theia2.TestFriends;
+import ip.theia2.User;
 
 /**
  * Fragment for the "Who's Nearby" page to display nearby friends.

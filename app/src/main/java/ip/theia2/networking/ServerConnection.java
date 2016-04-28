@@ -1,8 +1,8 @@
-package ip.theia2;
+package ip.theia2.networking;
 
 import java.io.*;
 
-import ip.theia2.interfaces.NetworkMessageHandler;
+import ip.theia2.networking.interfaces.NetworkMessageHandler;
 
 /**
  * Created by Zachary Shannon on 03/03/2016.

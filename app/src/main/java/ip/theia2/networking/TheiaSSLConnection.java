@@ -1,4 +1,4 @@
-package ip.theia2;
+package ip.theia2.networking;
 
 import java.io.*;
 import java.net.Socket;

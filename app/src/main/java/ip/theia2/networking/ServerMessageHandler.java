@@ -1,10 +1,10 @@
-package ip.theia2;
+package ip.theia2.networking;
 
 import java.io.InputStream;
 
 import ip.theia2.exceptions.TheiaLoginException;
-import ip.theia2.interfaces.LoginHandler;
-import ip.theia2.interfaces.NetworkMessageHandler;
+import ip.theia2.networking.interfaces.LoginHandler;
+import ip.theia2.networking.interfaces.NetworkMessageHandler;
 
 /**
  * Created by Zach on 27/04/2016.
