@@ -1,4 +1,4 @@
-package ip.theia2;
+package ip.theia2.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -8,6 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
+
+import ip.theia2.R;
+import ip.theia2.TestFriends;
+import ip.theia2.User;
 
 /**
  * Fragment for the "Friends" page to handle friends.

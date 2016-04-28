@@ -1,4 +1,4 @@
-package ip.theia2;
+package ip.theia2.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import ip.theia2.R;
 
 /**
  * Created by Laptop on 11/03/2016.

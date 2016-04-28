@@ -1,4 +1,4 @@
-package ip.theia2;
+package ip.theia2.activities;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -34,6 +34,10 @@ import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 
 import java.util.Stack;
+
+import ip.theia2.R;
+import ip.theia2.TestFriends;
+import ip.theia2.User;
 
 /**
  * TODO: Add server-sent locations to maps, must coincide with user's location request interval.

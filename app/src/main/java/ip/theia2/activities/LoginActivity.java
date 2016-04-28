@@ -1,4 +1,4 @@
-package ip.theia2;
+package ip.theia2.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,9 +11,11 @@ import android.widget.Toast;
 
 import java.io.InputStream;
 
+import ip.theia2.DotsPasswordTransformationMethod;
+import ip.theia2.R;
+import ip.theia2.networking.ServerMessageHandler;
 import ip.theia2.exceptions.TheiaLoginException;
-import ip.theia2.interfaces.LoginHandler;
-import ip.theia2.interfaces.NetworkMessageHandler;
+import ip.theia2.networking.interfaces.LoginHandler;
 
 /**
  * Activity for the "Login" page to handle login.
