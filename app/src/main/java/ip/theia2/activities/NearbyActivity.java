@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import ip.theia2.R;
 import ip.theia2.TestFriends;
 import ip.theia2.User;
-import ip.theia2.networking.ServerHandler;
 
 /**
  * Fragment for the "Who's Nearby" page to display nearby friends.
@@ -52,14 +51,6 @@ public class NearbyActivity extends ListFragment implements LocationListener{
 
         ServerHandler sh = ServerHandler.getInstance();
         ArrayList<String[]> friends = sh.getFriendList();
-
-        for(int i = 0; i < friends.size(); i++){
-            User thisUser = new User(friends.get(i)[0], parseLatLngString(friends.get(i)[1]));
-
-            if(thisUser.hasLocation()){
-                addFriend(thisUser);
-            }
-        }
 
         return inflater.inflate(R.layout.nearby_page, container, false);
     }
@@ -118,12 +109,6 @@ public class NearbyActivity extends ListFragment implements LocationListener{
                 Double.parseDouble(string.split("&&")[1]));
     }
     */
-
-    // Takes in a string "latitude&&longitude" and converts into a LatLng object.
-    private LatLng parseLatLngString(String string) {
-        return new LatLng(Double.parseDouble(string.split("&&")[0]),
-                Double.parseDouble(string.split("&&")[1]));
-    }
 
 
 }

@@ -33,14 +33,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 
-import java.util.ArrayList;
 import java.util.Stack;
 
 import ip.theia2.R;
 import ip.theia2.TestFriends;
 import ip.theia2.User;
-import ip.theia2.networking.ServerConnection;
-import ip.theia2.networking.ServerHandler;
 
 /**
  * TODO: Add server-sent locations to maps, must coincide with user's location request interval.

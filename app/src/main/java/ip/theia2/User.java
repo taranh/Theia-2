@@ -29,6 +29,9 @@ public class User {
         }
     }
 
+    /**
+     * @return location of the user as LatLng object.
+     */
     public LatLng getLatLng() {
         return location;
     }

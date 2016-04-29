@@ -4,7 +4,13 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 
 /**
- *  Transformation method to convert char sequence into dots to be used in password EditText.
+ *  This class consists of methods which creates a new Transformation method to convert char
+ *  sequences into dots used in password EditText.
+ *
+ *  @author Kai Diep
+ *  @see <a href="http://goo.gl/XcHKV4">Change EditText password mask character to asterisk (*)</a>
+ *  @see    PasswordTransformationMethod
+ *  @see    CharSequence
  */
 public class DotsPasswordTransformationMethod extends PasswordTransformationMethod {
     @Override

@@ -14,10 +14,11 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
 
 /**
- * Handles client-server connection.
+ * This class consists of methods which handles client-server connection.
+ *
+ * @author Zachary Shannon
  */
 
-//Need to add Internet permissions to the AndroidManifest in order for this to work!
 public class TheiaSSLConnection {
 
     private Socket sock;
@@ -25,10 +26,15 @@ public class TheiaSSLConnection {
     private OutputStream os;
 
     /**
+     * Creates a new server connection.
+     *
+     * TODO: Try to limit this to only the SECURE PROTOCOLS.
      *
      * @param host Host to connect to
      * @param port Port to connect to
      * @param trustStoreFile InputStream for the custom trust store to use.
+     * @see <a href="http://blog.trifork.com/2009/11/10/securing-connections-with-tls/">SSL Socket
+     *          Setup by Erik van Oosten (2009)</a>
      */
     public TheiaSSLConnection(String host, int port, InputStream trustStoreFile){
         try {
@@ -40,12 +46,7 @@ public class TheiaSSLConnection {
             System.err.println("error: "+ e.getMessage());
         }
 
-        //SSL Setup
-        //Using this guide for SSL Sockets by Erik van Oosten (2009)
-        //http://blog.trifork.com/2009/11/10/securing-connections-with-tls/
-
         //Wrap existing socket with SSLSocketFactory
-
         SSLSocketFactory sssf = getSssf(trustStoreFile);
 
         SSLSocket sslSock = null;
@@ -78,8 +79,13 @@ public class TheiaSSLConnection {
 
     }
 
+    /**
+     * I don't know what to write here - Kai
+     *
+     * @param trustStoreFile
+     * @return SSLSocketFactoru
+     */
     private SSLSocketFactory getSssf(InputStream trustStoreFile){
-
         //Need a trust store - borrowed from the server code.
         KeyStore ksTrusts = null;
         InputStream trusts = null;
@@ -108,7 +114,7 @@ public class TheiaSSLConnection {
             System.err.println("Issue with keystore: " + e.getMessage());
         } catch (NoSuchAlgorithmException e) {
             System.err.println("No algorithm!: " + e.getMessage());
-        } catch (java.security.cert.CertificateException e) { //Ummm android studio complained unless I did this...
+        } catch (java.security.cert.CertificateException e) {
             System.err.println("Certificate error: " + e.getMessage());
         } catch (IOException e) {
             System.err.println("IO Error: " + e.getMessage());
@@ -136,9 +142,9 @@ public class TheiaSSLConnection {
 
     /**
      * @return A list of cipher suites that this will consider 'secure'.
+     * @see <a href="www.ssllabs.com/ssltest/viewClient.html?name=Java&version=7u25">Secure Suites</a>
      */
     public static String[] getSecureSuites(){
-        //This list from https://www.ssllabs.com/ssltest/viewClient.html?name=Java&version=7u25
         //Taken from server
         return new String[]{
                 "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA",
@@ -153,9 +159,9 @@ public class TheiaSSLConnection {
 
     /**
      * @return A list of protocols this will consider 'secure'.
+     * @see <a href="https://cipherli.st/">Strong ciphers</a>
      */
     public static String[] getSecureProtocols(){
-        //This list sort of arbitrarily picked from here: https://cipherli.st/
         //Taken from server
         return new String[]{
                 "TLSv1.2",

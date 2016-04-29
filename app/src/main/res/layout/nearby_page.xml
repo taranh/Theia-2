@@ -8,7 +8,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Who&apos;s Nearby"
+        android:text="@string/title_activity_nearby"
         android:id="@+id/textViewTitle"
         android:paddingTop="10dp"
         android:paddingLeft="20dp" />

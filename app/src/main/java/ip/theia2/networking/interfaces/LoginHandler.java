@@ -1,14 +1,16 @@
 package ip.theia2.networking.interfaces;
 
 /**
- * Created by Zach on 27/04/2016.
+ * Interface for login results
+ *
+ * @author Zachary Shannon
  */
 public interface LoginHandler {
 
-    public void loginSuccess();
+    void loginSuccess();
 
-    public void loginFail();
+    void loginFail();
 
-    public void loginReject();
+    void loginReject();
 
 }
