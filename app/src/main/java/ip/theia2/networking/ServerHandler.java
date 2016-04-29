@@ -1,6 +1,7 @@
 package ip.theia2.networking;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import ip.theia2.exceptions.TheiaLoginException;
 import ip.theia2.networking.interfaces.LoginHandler;
@@ -9,24 +10,26 @@ import ip.theia2.networking.interfaces.NetworkMessageHandler;
 /**
  * Created by Zach on 27/04/2016.
  */
-public class ServerMessageHandler implements NetworkMessageHandler{
+public class ServerHandler implements NetworkMessageHandler{
 
     private LoginHandler lh;
     private ServerConnection conn;
 
     private String lastMessage;
 
-    //Singleton;
-    private static ServerMessageHandler smh = new ServerMessageHandler();
+    private ArrayList<String[]> friends = new ArrayList<String[]>();
 
-    public static ServerMessageHandler getInstance(){
+    //Singleton;
+    private static ServerHandler smh = new ServerHandler();
+
+    public static ServerHandler getInstance(){
         return smh;
     }
 
     /**
      * Create.
      */
-    private ServerMessageHandler(){
+    private ServerHandler(){
         //Don't really care!
     }
 
@@ -45,6 +48,8 @@ public class ServerMessageHandler implements NetworkMessageHandler{
                 conn = new ServerConnection(host, port, trustStore, nmh); //We are always using 5575.
             }
         }).start();
+
+
     }
 
     /**
@@ -99,11 +104,14 @@ public class ServerMessageHandler implements NetworkMessageHandler{
         //Split into commands.
         String[] cmds = splitCmdStr(msg);
 
+        System.out.println("Received: " + cmds[0]);
+
         switch(cmds[0]){
             case "acceptlog":
 
                 if(lh != null){
                     lh.loginSuccess();
+                    populateFriends(); //Populate the friends list now we are logged in.
                 }
                 break;
             case "rejectlog":
@@ -111,11 +119,71 @@ public class ServerMessageHandler implements NetworkMessageHandler{
                 if(lh != null){
                     lh.loginReject();
                 }
-
                 break;
             case "fail":
                 failMessage();
+                break;
+            case "friend":
+                storeFriend(cmds[1]);
+                break;
+            case "loc":
+
+                System.out.println("Location received for " + cmds[1] + " at " + cmds[2]);
+                String[] friend = {cmds[1], cmds[2]};
+                friends.add(friend);
+
+                break;
+            case "locchange":
+
+                break;
         }
+    }
+
+    /**
+     * Returns the friends arraylist.
+     * @return Friends arraylist to return.
+     */
+    public ArrayList<String[]> getFriendList(){
+        return friends;
+    }
+
+    /**
+     * Update friend record.
+     * @param username
+     * @param loc
+     */
+    private void updateFriend(String username, String loc){
+        for(int i = 0; i < friends.size(); i++){
+
+            if(friends.get(i)[0].equals(username)){
+                friends.remove(i);
+
+                String[] friend = {username, loc};
+                friends.add(friend);
+            }
+        }
+    }
+
+    /**
+     * Adds specified user to the friends list.
+     */
+    private void storeFriend(String username){
+        System.out.println("Getting location for " + username);
+        sendMessage("getloc " + username);
+    }
+
+    /**
+     * Start populating the friends arraylist.
+     */
+    private void populateFriends(){
+
+        (new Thread() {
+            public void run() {
+                //Code to do that here.
+                System.out.println("Populating friends");
+                sendMessage("getfriendls");
+            }
+        }).start();
     }
 
     /**

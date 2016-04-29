@@ -33,11 +33,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 import ip.theia2.R;
 import ip.theia2.TestFriends;
 import ip.theia2.User;
+import ip.theia2.networking.ServerConnection;
+import ip.theia2.networking.ServerHandler;
 
 /**
  * TODO: Add server-sent locations to maps, must coincide with user's location request interval.
@@ -77,15 +80,23 @@ public class MapActivity extends Fragment
 
         // testing
 
-        LatLng testFriend = new LatLng(51.380928, -2.360182);
+//        LatLng testFriend = new LatLng(51.380928, -2.360182);
         //addMarker("hey its me ur brother", testFriend);
 
         String testFriend2 = "51.379748&&-2.330712";
         Stack<User> userStack = new Stack<>();
-        userStack.push(TestFriends.albert);
-        userStack.push(TestFriends.frida);
-        userStack.push(TestFriends.orlando);
-        userStack.push(new User("Erik Uberti", parseLatLngString(testFriend2)));
+//        userStack.push(TestFriends.albert);
+//        userStack.push(TestFriends.frida);
+//        userStack.push(TestFriends.orlando);
+//        userStack.push(new User("Erik Uberti", parseLatLngString(testFriend2)));
+
+        ServerHandler sh = ServerHandler.getInstance();
+
+        ArrayList<String[]> friends = sh.getFriendList();
+
+        for(int i = 0; i < friends.size(); i++){
+            userStack.push(new User(friends.get(i)[0], parseLatLngString(friends.get(i)[1])));
+        }
 
         for (int i = 0; i <= userStack.size(); i++) {
             addMarker(userStack.pop(), BitmapDescriptorFactory.HUE_GREEN);
