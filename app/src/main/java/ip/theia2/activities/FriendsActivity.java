@@ -14,20 +14,27 @@ import ip.theia2.TestFriends;
 import ip.theia2.User;
 
 /**
- * Fragment for the "Friends" page to handle friends.
+ * This class consists of methods that handles the creation of the "Friends" fragment to handle
+ * and display the user's friends in the app.
+ *
+ * @author Kai Diep
+ * @author Zachary Shannon
  */
-public class FriendsActivity extends ListFragment{
+public class FriendsActivity extends ListFragment {
 
+    // Stores all of the user's friends.
     private ArrayList<String> friends = new ArrayList<>();
+    // Displays friends on the ListView object.
     private ArrayAdapter<String> adapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1, friends);
         setListAdapter(adapter);
 
-        // Adding test friends onto the list.
+        // DEBUG
         addFriend(TestFriends.albert);
         addFriend(TestFriends.frida);
         addFriend(TestFriends.orlando);
@@ -35,6 +42,11 @@ public class FriendsActivity extends ListFragment{
         return inflater.inflate(R.layout.friends_page, container, false);
     }
 
+    /**
+     * Adds a user to the ListView displaying name.
+     *
+     * @param user the user to be displayed.
+     */
     private void addFriend(User user){
         friends.add(user.getName());
         adapter.notifyDataSetChanged();

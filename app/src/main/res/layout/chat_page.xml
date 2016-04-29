@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Messenger"
+        android:text="@string/title_activity_chat"
         android:id="@+id/textViewChatTitle"
         android:paddingLeft="20dp"
         android:paddingTop="10dp" />

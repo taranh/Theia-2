@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -40,19 +41,27 @@ import ip.theia2.TestFriends;
 import ip.theia2.User;
 
 /**
+ * This class consists of methods for the "Map" fragment which handles and displays the map
+ * implementing the OnMapReadyCallback, ConnectionCallbacks, OnConnectionFailedListener and
+ * LocationListener interfaces.
+ *
  * TODO: Add server-sent locations to maps, must coincide with user's location request interval.
- * TODO: Do stuff for when user is unable to connect to api.
+ *
+ * @author Kai Diep
+ * @author Zachary Shannon
  */
-
-public class MapActivity extends Fragment
-        implements OnMapReadyCallback, ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
-
+public class MapActivity extends Fragment implements OnMapReadyCallback, ConnectionCallbacks,
+        OnConnectionFailedListener, LocationListener {
+    // Map object.
     private GoogleMap mMap;
+    // Client for connecting to Google API to get the user's location.
     private GoogleApiClient mGoogleApiClient;
+    // Stores the user's current location.
     private LatLng mUserLocation;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         return inflater.inflate(R.layout.maps_page, container, false);
     }
 
@@ -73,31 +82,22 @@ public class MapActivity extends Fragment
         mMap = googleMap;
 
         buildGoogleApiClient();
+
+        // Connecting to the API.
         mGoogleApiClient.connect();
 
-        // testing
-
-        LatLng testFriend = new LatLng(51.380928, -2.360182);
+        // DEBUG
+        //LatLng testFriend = new LatLng(51.380928, -2.360182);
         //addMarker("hey its me ur brother", testFriend);
-
         String testFriend2 = "51.379748&&-2.330712";
         Stack<User> userStack = new Stack<>();
         userStack.push(TestFriends.albert);
         userStack.push(TestFriends.frida);
         userStack.push(TestFriends.orlando);
         userStack.push(new User("Erik Uberti", parseLatLngString(testFriend2)));
-
         for (int i = 0; i <= userStack.size(); i++) {
             addMarker(userStack.pop(), BitmapDescriptorFactory.HUE_GREEN);
         }
-    }
-
-    private synchronized void buildGoogleApiClient(){
-        mGoogleApiClient = new GoogleApiClient.Builder(this.getActivity())
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
     }
 
     @Override
@@ -134,24 +134,44 @@ public class MapActivity extends Fragment
     }
 
     @Override
-    public void onConnectionSuspended(int i){
+    public void onConnectionSuspended(int i) {
         System.err.println("Connection Suspended");
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult result){
+    public void onConnectionFailed(@NonNull ConnectionResult result) {
         System.err.println("Connection Failed");
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        // TODO: Clear map when locchange is received.
+        //
         //mMap.clear();
         addMarker(new User("You", new LatLng(location.getLatitude(), location.getLongitude())),
                 BitmapDescriptorFactory.HUE_BLUE);
     }
 
-    // Adds a marker on the map, refer to hue colour wheel for customising colours.
+    /**
+     * Instantiates a GoogleApiClient object.
+     *
+     * @see <a href="https://goo.gl/DcpwXU">GoogleApiClient</a>
+     */
+    private synchronized void buildGoogleApiClient(){
+        mGoogleApiClient = new GoogleApiClient.Builder(this.getActivity())
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+    }
+
+    /**
+     * Adds a marker representing a user onto the map.
+     *
+     * @param   user the user to be added.
+     * @param   hue the colour of the marker.
+     * @see     BitmapDescriptorFactory
+     */
+
     private void addMarker(User user, float hue) {
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(user.getLatLng());
@@ -160,22 +180,36 @@ public class MapActivity extends Fragment
         mMap.addMarker(markerOptions);
     }
 
-    // Takes in a string "latitude&&longitude" and converts into a LatLng object.
+    /**
+     * Takes in a string "latitude&&longitude" and converts it into a LatLng object.
+     *
+     * @param   string the string to be converted.
+     * @return  the string as a LatLng object.
+     * @see     LatLng
+     */
+    //
     private LatLng parseLatLngString(String string) {
         return new LatLng(Double.parseDouble(string.split("&&")[0]),
                 Double.parseDouble(string.split("&&")[1]));
     }
 
+    /**
+     * Setup callback interface for when the map is ready to be used.
+     *
+     * @see SupportMapFragment
+     */
     private void setupMap() {
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_theia);
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
+                .findFragmentById(R.id.map_theia);
         mapFragment.getMapAsync(this);
     }
 
     /**
      * Checks if locations services are enabled.
+     *
+     * @see <a href="http://goo.gl/dlzCic">Enabled location services check</a>
      */
     private boolean isLocationEnabled(){
-        // http://stackoverflow.com/questions/10311834/how-to-check-if-location-services-are-enabled
         int locationMode = 0;
         String locationProviders;
 
@@ -199,11 +233,14 @@ public class MapActivity extends Fragment
 
     /**
      * Create a dialog to warn the user that location services are not enabled.
+     *
+     * @param context the activity to display dialog.
      */
     private void createLocationAlertDialog(final Context context){
         AlertDialog.Builder dialog = new AlertDialog.Builder(context);
         dialog.setMessage(context.getResources().getString(R.string.location_services_not_enabled));
-        dialog.setPositiveButton(context.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+        dialog.setPositiveButton(context.getResources().getString(R.string.yes),
+                new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Go to location settings on device.
@@ -219,7 +256,8 @@ public class MapActivity extends Fragment
                 }
             }
         });
-        dialog.setNegativeButton(context.getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+        dialog.setNegativeButton(context.getResources().getString(R.string.no),
+                new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Go back to MainActivity

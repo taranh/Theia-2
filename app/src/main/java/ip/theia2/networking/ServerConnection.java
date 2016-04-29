@@ -5,7 +5,9 @@ import java.io.*;
 import ip.theia2.networking.interfaces.NetworkMessageHandler;
 
 /**
- * Created by Zachary Shannon on 03/03/2016.
+ * This class consists of methods which handles server connection.
+ *
+ * @author Zachary Shannon
  */
 public class ServerConnection {
 
@@ -15,7 +17,11 @@ public class ServerConnection {
 
     /**
      * Creates a new network connection.
+     *
+     * @param host host to connect to.
+     * @param port port to connect to.
      * @param trustStore TrustStore file to use for the connection.
+     * @param newNmh NetworkMessageHandler interface.
      */
     public ServerConnection(final String host, final int port, final InputStream trustStore, NetworkMessageHandler newNmh){
         nmh = newNmh;
@@ -42,6 +48,7 @@ public class ServerConnection {
 
     /**
      * Sends the message to the server.
+     *
      * @param msg Message to send to the server.
      */
     public synchronized void sendMessage(String msg){

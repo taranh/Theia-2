@@ -1,10 +1,12 @@
 package ip.theia2.networking.interfaces;
 
+/**
+ * Interface for handling messages from a network connection.
+ *
+ * @author Zachary Shannon
+ */
 public interface NetworkMessageHandler {
-    /**
-     * Handle a message from a network connection.
-     * @return True if succeeded, false if failed.
-     * @
-     */
-    public void handleMessage(String msg);
+
+    void handleMessage(String msg);
+
 }

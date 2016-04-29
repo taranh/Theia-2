@@ -1,7 +1,8 @@
 package ip.theia2.exceptions;
 
 /**
- * Created by Zach on 27/04/2016.
+ * Exception for unsuccessful login.
+ *
+ * @author Zachary Shannon
  */
-public class TheiaLoginException extends Exception{
-}
+public class TheiaLoginException extends Exception{}

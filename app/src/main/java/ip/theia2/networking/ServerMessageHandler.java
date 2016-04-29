@@ -7,16 +7,19 @@ import ip.theia2.networking.interfaces.LoginHandler;
 import ip.theia2.networking.interfaces.NetworkMessageHandler;
 
 /**
- * Created by Zach on 27/04/2016.
+ * This class consists of methods which handles server messages implementing the
+ * NetworkMessageHandler interface.
+ *
+ * @author  Zachary Shannon
+ * @see     NetworkMessageHandler
  */
 public class ServerMessageHandler implements NetworkMessageHandler{
 
     private LoginHandler lh;
     private ServerConnection conn;
-
     private String lastMessage;
 
-    //Singleton;
+    //Singleton.
     private static ServerMessageHandler smh = new ServerMessageHandler();
 
     public static ServerMessageHandler getInstance(){
@@ -24,17 +27,16 @@ public class ServerMessageHandler implements NetworkMessageHandler{
     }
 
     /**
-     * Create.
+     * Constructor method.
      */
-    private ServerMessageHandler(){
-        //Don't really care!
-    }
-
+    private ServerMessageHandler(){}
 
     /**
      * Add a server connection.
+     *
      * @param host Host to connect to.
      * @param port Port to connect to.
+     * @param trustStore TrustStore file to use for the connection.
      */
     public void startServerConnection(final String host, final int port, final InputStream trustStore){
 
@@ -49,6 +51,7 @@ public class ServerMessageHandler implements NetworkMessageHandler{
 
     /**
      * Adds a login handler.
+     *
      * @param lhSet Login handler to add.
      */
     public void addLoginHandler(LoginHandler lhSet){
@@ -57,8 +60,9 @@ public class ServerMessageHandler implements NetworkMessageHandler{
 
     /**
      * Attempt a login
+     *
      * @param username Username to use
-     * @param password Password to us
+     * @param password Password to use
      */
     public void login(final String username, final String password) throws TheiaLoginException {
         if(lh != null){
@@ -70,13 +74,13 @@ public class ServerMessageHandler implements NetworkMessageHandler{
             }).start();
         }
         else{
-            TheiaLoginException le = new TheiaLoginException();
-            throw le;
+            throw new TheiaLoginException();
         }
     }
 
     /**
      * Send a message to the server.
+     *
      * @param message Message to send to the server.
      */
     public void sendMessage(String message){
@@ -93,6 +97,7 @@ public class ServerMessageHandler implements NetworkMessageHandler{
 
     /**
      * Implements the handle message interface.
+     *
      * @param msg message to handle.
      */
     public void handleMessage(final String msg){

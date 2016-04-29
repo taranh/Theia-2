@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Create Account"
+            android:text="@string/title_activity_create"
             android:id="@+id/textViewCreateTitle"
             android:layout_row="0"
             android:layout_column="0"
@@ -37,7 +37,7 @@
             android:width="150dp"
             android:layout_gravity="center_horizontal"
             android:layout_columnSpan="1"
-            android:hint="Name"
+            android:hint="@string/hint_name"
             android:layout_below="@+id/textViewCreateTitle"
             android:layout_centerHorizontal="true"
             android:inputType="textNoSuggestions" />
@@ -51,7 +51,7 @@
             android:width="150dp"
             android:layout_gravity="center_horizontal"
             android:layout_alignStart="@+id/editTextcUser"
-            android:hint="Password"
+            android:hint="@string/hint_password"
             android:layout_below="@+id/editTextcUser"
             android:inputType="textNoSuggestions" />
 
@@ -67,7 +67,7 @@
             android:layout_alignStart="@+id/radioButtonsPub"
             android:layout_alignEnd="@+id/editTextcPass"
             android:inputType="text"
-            android:hint="Course" />
+            android:hint="@string/hint_course" />
 
         <EditText
             android:layout_width="161dp"
@@ -81,12 +81,12 @@
             android:layout_alignStart="@+id/editTextcCourse"
             android:layout_alignEnd="@+id/editTextcCourse"
             android:inputType="text"
-            android:hint="Favourite Places" />
+            android:hint="@string/hint_favplaces" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Public"
+            android:text="@string/radio_public"
             android:id="@+id/radioButtonsPub"
             android:layout_row="5"
             android:layout_column="1"
@@ -98,7 +98,7 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Private"
+            android:text="@string/radio_private"
             android:id="@+id/radioButtonsPriv"
             android:layout_row="6"
             android:layout_column="1"
@@ -110,7 +110,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="70dp"
-            android:text="Create"
+            android:text="@string/button_create"
             android:id="@+id/buttoncCreate"
             android:layout_row="8"
             android:layout_column="0"

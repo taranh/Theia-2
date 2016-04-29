@@ -16,7 +16,11 @@ import android.widget.Toast;
 import ip.theia2.R;
 
 /**
- * Fragment for the "Settings" page to handle app settings.
+ * This class consists of methods for the "Settings" fragment which handles app settings.
+ *
+ * TODO - fill fields with the current account settings
+ *
+ * @author Taran Hackman
  */
 public class SettingsActivity extends Fragment {
 
@@ -24,18 +28,13 @@ public class SettingsActivity extends Fragment {
     Button chpassButton, okButton, delButton;
     RadioButton privRadButton, pubRadButton;
 
-    public SettingsActivity(){
-        // constructor
-    }
-
-    // this makes the settings_page.xml page
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        LinearLayout page = (LinearLayout) inflater.inflate(R.layout.settings_page, container, false);
+        LinearLayout page = (LinearLayout) inflater.inflate(R.layout.settings_page,
+                container, false);
 
         // Assign UI elements
-        // TODO - fill fields with the current account settings
         userText = (EditText) page.findViewById(R.id.editTextsUser);
         // userText.setText();
         courseText = (EditText) page.findViewById(R.id.editTextsCourse);
@@ -62,9 +61,14 @@ public class SettingsActivity extends Fragment {
         return page;
     }
 
+    //TODO
     private void addTextFunctionality(){
 
     }
+
+    /**
+     * Adds OnClickListeners to several buttons.
+     */
     private void addButtonFunctionality(){
         chpassButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +107,10 @@ public class SettingsActivity extends Fragment {
             }
         });
     }
+
+    /**
+     * Sets up radio buttons to ensure that only one button can be checked.
+     */
     private void addRadioFunctionality(){
         pubRadButton.setOnClickListener(new View.OnClickListener(){
             @Override
