@@ -19,6 +19,16 @@ public class User {
         return name;
     }
 
+    //Return true if has a location.
+    public Boolean hasLocation(){
+        if(location != null){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
     public LatLng getLatLng() {
         return location;
     }

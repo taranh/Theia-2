@@ -48,6 +48,8 @@ public class ServerHandler implements NetworkMessageHandler{
                 conn = new ServerConnection(host, port, trustStore, nmh); //We are always using 5575.
             }
         }).start();
+
+
     }
 
     /**
@@ -102,11 +104,14 @@ public class ServerHandler implements NetworkMessageHandler{
         //Split into commands.
         String[] cmds = splitCmdStr(msg);
 
+        System.out.println("Received: " + cmds[0]);
+
         switch(cmds[0]){
             case "acceptlog":
 
                 if(lh != null){
                     lh.loginSuccess();
+                    populateFriends(); //Populate the friends list now we are logged in.
                 }
                 break;
             case "rejectlog":
@@ -114,11 +119,57 @@ public class ServerHandler implements NetworkMessageHandler{
                 if(lh != null){
                     lh.loginReject();
                 }
-
                 break;
             case "fail":
                 failMessage();
+                break;
+            case "friend":
+                storeFriend(cmds[1]);
+                break;
+            case "loc":
+
+                System.out.println("Location received for " + cmds[1] + " at " + cmds[2]);
+                String[] friend = {cmds[1], cmds[2]};
+                friends.add(friend);
+
+                break;
+            case "locchange":
+
+                break;
         }
+    }
+
+    /**
+     * Returns the friends arraylist.
+     * @return Friends arraylist to return.
+     */
+    public ArrayList<String[]> getFriendList(){
+        return friends;
+    }
+
+    /**
+     * Update friend record.
+     * @param username
+     * @param loc
+     */
+    private void updateFriend(String username, String loc){
+        for(int i = 0; i < friends.size(); i++){
+
+            if(friends.get(i)[0].equals(username)){
+                friends.remove(i);
+
+                String[] friend = {username, loc};
+                friends.add(friend);
+            }
+        }
+    }
+
+    /**
+     * Adds specified user to the friends list.
+     */
+    private void storeFriend(String username){
+        System.out.println("Getting location for " + username);
+        sendMessage("getloc " + username);
     }
 
     /**
@@ -129,6 +180,8 @@ public class ServerHandler implements NetworkMessageHandler{
         (new Thread() {
             public void run() {
                 //Code to do that here.
+                System.out.println("Populating friends");
+                sendMessage("getfriendls");
             }
         }).start();
     }
