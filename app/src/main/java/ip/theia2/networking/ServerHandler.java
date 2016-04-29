@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import ip.theia2.exceptions.TheiaLoginException;
+import ip.theia2.networking.interfaces.ChatHandler;
 import ip.theia2.networking.interfaces.LoginHandler;
 import ip.theia2.networking.interfaces.NetworkMessageHandler;
 
@@ -14,6 +15,7 @@ public class ServerHandler implements NetworkMessageHandler{
 
     private LoginHandler lh;
     private ServerConnection conn;
+    private ChatHandler chat;
 
     private String lastMessage;
 
@@ -58,6 +60,14 @@ public class ServerHandler implements NetworkMessageHandler{
      */
     public void addLoginHandler(LoginHandler lhSet){
         lh = lhSet;
+    }
+
+    /**
+     * Adds a chat handler.
+     * @param chSet Chat handler to set.
+     */
+    public void addChatHandler(ChatHandler chSet){
+        chat = chSet;
     }
 
     /**
@@ -134,7 +144,12 @@ public class ServerHandler implements NetworkMessageHandler{
 
                 break;
             case "locchange":
-
+                //todo.
+                break;
+            case "chatmsg":
+                if(chat != null){
+                    chat.chatMessage(cmds[1], cmds[2]);
+                }
                 break;
         }
     }
