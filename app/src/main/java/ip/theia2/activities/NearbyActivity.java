@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import ip.theia2.R;
 import ip.theia2.TestFriends;
 import ip.theia2.User;
+import ip.theia2.networking.ServerHandler;
 
 /**
  * Fragment for the "Who's Nearby" page to display nearby friends.
