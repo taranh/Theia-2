@@ -77,16 +77,27 @@ public class ChatActivity extends Fragment implements ChatHandler{
             public void onClick(View v) {
 
                 //get the spinner.
-                final Spinner theSpinner = (Spinner) chatV.findViewById(R.id.friendSpinner);
+                Spinner theSpinner = (Spinner) chatV.findViewById(R.id.friendSpinner);
 
-                final EditText text = (EditText) chatV.findViewById(R.id.editText);
+                EditText text = (EditText) chatV.findViewById(R.id.editText);
 
                 final ServerHandler sh = ServerHandler.getInstance();
+
+                final String dest = theSpinner.getSelectedItem().toString();
+
+                final String msg = text.getText().toString();
+
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        TextView tv = (TextView) chatV.findViewById(R.id.chatOut);
+                        tv.setText("You said: " + msg);
+                    }
+                });
 
                 (new Thread() {
                     public void run() {
                         System.out.println("Sending message");
-                        sh.sendMessage("chat " + theSpinner.getSelectedItem().toString() + " " + text.getText().toString());
+                        sh.sendMessage("chat " + dest + " " + msg);
                     }
                 }).start();
             }
